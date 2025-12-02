@@ -1,0 +1,225 @@
+.terminal-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #0a0a0a;
+    color: #00ff00;
+    font-family: 'Courier New', 'Consolas', 'Monaco', monospace;
+    overflow: hidden;
+}
+
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #333;
+}
+
+.terminal-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #00ff00;
+}
+
+.terminal-icon {
+    color: #00ff00;
+    font-size: 0.7rem;
+}
+
+.terminal-switch {
+    color: #00ff00;
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid #00ff00;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.terminal-switch:hover {
+    background-color: #00ff00;
+    color: #0a0a0a;
+}
+
+.terminal-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 1rem 1.5rem;
+}
+
+.terminal-output {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+/* Custom scrollbar for terminal */
+.terminal-output::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminal-output::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+.terminal-output::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+
+.terminal-output::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.terminal-line {
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.terminal-line.system {
+    color: #888;
+}
+
+.terminal-line.command {
+    color: #00ff00;
+}
+
+.terminal-line.response {
+    color: #00ccff;
+}
+
+.terminal-line.loading {
+    color: #00ccff;
+}
+
+.prompt {
+    color: #00ff00;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.command-text {
+    color: #ffffff;
+}
+
+.response-prefix {
+    color: #00ccff;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.response-text {
+    color: #ffffff;
+}
+
+.system-text {
+    color: #888;
+}
+
+.terminal-input-line {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-top: 1px solid #333;
+    padding-top: 1rem;
+}
+
+.input-wrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-text {
+    color: #ffffff;
+    white-space: pre;
+    /* Preserve spaces */
+    pointer-events: none;
+}
+
+.input-wrapper .cursor-blink {
+    flex-shrink: 0;
+}
+
+.terminal-input {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 1rem;
+    caret-color: transparent;
+    opacity: 0;
+    /* Hide the actual input but keep it functional */
+}
+
+.terminal-input:disabled {
+    opacity: 0;
+}
+
+/* Blinking cursor animation */
+.cursor-blink {
+    animation: blink 1s step-end infinite;
+    color: #00ff00;
+}
+
+@keyframes blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Loading animation */
+.loading-text {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Optional: Scanline effect for retro terminal feel */
+.terminal-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom,
+            transparent 50%,
+            rgba(0, 255, 0, 0.02) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.terminal-output,
+.terminal-input-line {
+    position: relative;
+    z-index: 2;
+}
+
+/* Subtle glow effect on text */
+.terminal-line,
+.terminal-input,
+.prompt {
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+}

@@ -1,8 +1,8 @@
-import LLMInterface from './pages/llmInterface'
+import TerminalInterface from './pages/terminalInterface'
 import './App.css'
 
 function App() {
-  return <LLMInterface />
+  return <TerminalInterface />
 }
 
 export default App

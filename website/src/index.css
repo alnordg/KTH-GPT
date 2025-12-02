@@ -3,7 +3,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
 
   /* KTH Theme Palette */
   --bg-app: #ffffff;
@@ -33,19 +32,6 @@ body {
   color: var(--text-primary);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-app: #1e1e1e;
-    --bg-sidebar: #171717;
-    --bg-message-user: #2a2a2a;
-    --text-primary: #ededed;
-    --text-secondary: #a0a0a0;
-    --border-subtle: #333333;
-    --accent-primary: #1954A6;
-    /* Keep KTH Blue */
-    --accent-hover: #4d82cb;
-  }
-}
 
 * {
   box-sizing: border-box;
