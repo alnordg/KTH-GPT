@@ -493,6 +493,18 @@
     min-width: 0;
 }
 
+.terminal-link {
+    color: var(--term-response);
+    text-decoration: underline;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.terminal-link:hover {
+    opacity: 0.8;
+    text-shadow: 0 0 8px var(--term-glow);
+}
+
 .terminal-input-line {
     display: flex;
     align-items: flex-start;

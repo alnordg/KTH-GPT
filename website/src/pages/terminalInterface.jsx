@@ -131,7 +131,7 @@ function TerminalInterface() {
             if (commandResult.type === 'response') {
                 setHistory(prev => [...prev,
                 { type: 'command', text: trimmedInput },
-                { type: 'command-response', text: commandResult.text }
+                { type: 'command-response', text: commandResult.text, link: commandResult.link }
                 ]);
                 setInputValue('');
                 setHistoryIndex(-1);
@@ -369,7 +369,22 @@ function TerminalInterface() {
                             {entry.type === 'command-response' && (
                                 <>
                                     <span className="response-prefix">[SYSTEM] </span>
-                                    <span className="response-text">{entry.text}</span>
+                                    <span className="response-text">
+                                        {entry.link ? (
+                                            <>
+                                                GitHub: <a
+                                                    href={entry.link}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="terminal-link"
+                                                >
+                                                    {entry.link}
+                                                </a>
+                                                <br />
+                                                Created by: Alno & Guma
+                                            </>
+                                        ) : entry.text}
+                                    </span>
                                 </>
                             )}
                             {entry.type === 'system' && (

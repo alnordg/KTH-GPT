@@ -31,7 +31,9 @@ export const COMMANDS = {
         description: 'Show contact info',
         execute: () => ({
             type: 'response',
-            text: 'GitHub: https://github.com/alnordg/KTH-GPT\nCreated by: Alno & Guma'
+            text: 'GitHub: https://github.com/alnordg/KTH-GPT\nCreated by: Alno & Guma',
+            html: true,
+            link: 'https://github.com/alnordg/KTH-GPT'
         })
     },
     sudo: {
