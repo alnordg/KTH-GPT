@@ -216,6 +216,79 @@
     --term-glow: rgba(157, 77, 117, 0.25);
 }
 
+.terminal-container.chroma {
+    --term-bg: #0a0a14;
+    --term-header-bg: #0f0520;
+    --term-border: #ff00ff;
+    --term-text: #00ffff;
+    --term-prompt: #ff00ff;
+    --term-response: #00ff00;
+    --term-system: #ffff00;
+    --term-caret: #ff0080;
+    --term-glow: rgba(255, 0, 255, 0.6);
+}
+
+.terminal-container.chroma .terminal-container {
+    background: #0a0a14;
+}
+
+.terminal-container.chroma .ascii-banner {
+    background: linear-gradient(90deg, #ff0080, #ff00ff, #8000ff, #0080ff, #00ffff, #00ff80, #ffff00, #ff8000, #ff0080);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: chromaShift 3s linear infinite;
+    font-weight: bold;
+}
+
+.terminal-container.chroma .prompt {
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+}
+
+.terminal-container.chroma .command-text {
+    color: #00ffff;
+    text-shadow: 0 0 8px #00ffff;
+}
+
+.terminal-container.chroma .response-prefix {
+    color: #00ff00;
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+}
+
+.terminal-container.chroma .response-text {
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.terminal-container.chroma .system-text {
+    color: #ffff00;
+    text-shadow: 0 0 8px #ffff00;
+}
+
+@keyframes chromaShift {
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+.terminal-container.purple {
+    --term-bg: #1a0a2e;
+    --term-header-bg: #2d1b4e;
+    --term-border: #7b2cbf;
+    --term-text: #e0aaff;
+    --term-prompt: #c77dff;
+    --term-response: #9d4edd;
+    --term-system: #5a189a;
+    --term-caret: #c77dff;
+    --term-glow: rgba(199, 125, 255, 0.3);
+}
+
 .terminal-header {
     display: flex;
     justify-content: space-between;
@@ -266,6 +339,7 @@
     overflow-y: auto;
     margin-bottom: 1rem;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 /* Custom scrollbar for terminal */
@@ -320,6 +394,9 @@
     /* Or maybe prompt color? */
     white-space: pre-wrap;
     overflow-wrap: break-word;
+    word-break: break-word;
+    flex: 1;
+    min-width: 0;
 }
 
 .response-prefix {
@@ -332,10 +409,18 @@
     color: var(--term-text);
     white-space: pre-wrap;
     overflow-wrap: break-word;
+    word-break: break-word;
+    flex: 1;
+    min-width: 0;
 }
 
 .system-text {
     color: var(--term-system);
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    flex: 1;
+    min-width: 0;
 }
 
 .terminal-input-line {
@@ -386,7 +471,7 @@
     padding: 0;
     margin: 0;
     line-height: 1.5;
-    overflow: hidden;
+    overflow-y: auto;
     z-index: 1;
     caret-color: var(--term-caret);
     display: block;

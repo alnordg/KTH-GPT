@@ -150,6 +150,33 @@ function TerminalInterface() {
                 setHistoryIndex(-1);
                 return;
             }
+
+            if (commandResult.type === 'copy') {
+                const lastResponse = [...history].reverse().find(h => h.type === 'response');
+
+                if (lastResponse) {
+                    try {
+                        await navigator.clipboard.writeText(lastResponse.text);
+                        setHistory(prev => [...prev,
+                        { type: 'command', text: trimmedInput },
+                        { type: 'system', text: 'Copied last response to clipboard.' }
+                        ]);
+                    } catch (err) {
+                        setHistory(prev => [...prev,
+                        { type: 'command', text: trimmedInput },
+                        { type: 'system', text: 'Failed to copy to clipboard.' }
+                        ]);
+                    }
+                } else {
+                    setHistory(prev => [...prev,
+                    { type: 'command', text: trimmedInput },
+                    { type: 'system', text: 'No response found to copy.' }
+                    ]);
+                }
+                setInputValue('');
+                setHistoryIndex(-1);
+                return;
+            }
         }
 
         // Add user command to history
@@ -179,26 +206,62 @@ function TerminalInterface() {
             e.preventDefault();
             handleSubmit(e);
         } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            const commands = history.filter(h => h.type === 'command').map(h => h.text);
-            if (commands.length === 0) return;
-            if (historyIndex === -1 && inputValue.length > 0) return;
+            const { selectionStart, value } = e.target;
+            const lines = value.split('\n');
+            let currentLine = 0;
+            let charCount = 0;
+            for (let i = 0; i < lines.length; i++) {
+                charCount += lines[i].length + 1;
+                if (charCount > selectionStart) {
+                    currentLine = i;
+                    break;
+                }
+            }
 
-            const newIndex = historyIndex === -1 ? commands.length - 1 : Math.max(0, historyIndex - 1);
-            setHistoryIndex(newIndex);
-            setInputValue(commands[newIndex]);
-        } else if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            if (historyIndex === -1) return;
+            const isFirstLine = currentLine === 0;
 
-            const commands = history.filter(h => h.type === 'command').map(h => h.text);
-            if (historyIndex >= commands.length - 1) {
-                setHistoryIndex(-1);
-                setInputValue('');
-            } else {
-                const newIndex = historyIndex + 1;
+            if (isFirstLine && (inputValue === '' || historyIndex !== -1)) {
+                e.preventDefault();
+                const commands = history.filter(h => h.type === 'command').map(h => h.text);
+                if (commands.length === 0) return;
+
+                const newIndex = historyIndex === -1 ? commands.length - 1 : Math.max(0, historyIndex - 1);
                 setHistoryIndex(newIndex);
                 setInputValue(commands[newIndex]);
+
+                setTimeout(() => {
+                    if (inputRef.current) {
+                        inputRef.current.selectionStart = inputRef.current.value.length;
+                        inputRef.current.selectionEnd = inputRef.current.value.length;
+                    }
+                }, 0);
+            }
+        } else if (e.key === 'ArrowDown') {
+            const { selectionStart, value } = e.target;
+            const lines = value.split('\n');
+            let currentLine = 0;
+            let charCount = 0;
+            for (let i = 0; i < lines.length; i++) {
+                charCount += lines[i].length + 1;
+                if (charCount > selectionStart) {
+                    currentLine = i;
+                    break;
+                }
+            }
+
+            const isLastLine = currentLine === lines.length - 1;
+
+            if (isLastLine && historyIndex !== -1) {
+                e.preventDefault();
+                const commands = history.filter(h => h.type === 'command').map(h => h.text);
+                if (historyIndex >= commands.length - 1) {
+                    setHistoryIndex(-1);
+                    setInputValue('');
+                } else {
+                    const newIndex = historyIndex + 1;
+                    setHistoryIndex(newIndex);
+                    setInputValue(commands[newIndex]);
+                }
             }
         } else if (e.key === 'Tab') {
             e.preventDefault();
@@ -330,9 +393,11 @@ function TerminalInterface() {
                 <form onSubmit={handleSubmit} className="terminal-input-line">
                     <span className="prompt">user@kth-gpt:~$</span>
                     <div className="input-wrapper">
-                        <div className="terminal-ghost">
-                            {inputValue}<span className="ghost-suggestion">{suggestion}</span>
-                        </div>
+                        {suggestion && (
+                            <div className="terminal-ghost">
+                                {inputValue}<span className="ghost-suggestion">{suggestion}</span>
+                            </div>
+                        )}
                         <textarea
                             ref={inputRef}
                             value={inputValue}

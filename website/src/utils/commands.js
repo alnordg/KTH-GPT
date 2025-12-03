@@ -1,7 +1,7 @@
 export const THEMES = [
     'default', 'matrix', 'kth', 'dark', 'retro', 'cyberpunk', 'dracula',
     'monokai', 'solarized-light', 'solarized-dark', 'nord', 'synthwave',
-    'ubuntu', 'red-alert', 'blue-screen', 'sakura', 'soft-sakura'
+    'ubuntu', 'red-alert', 'blue-screen', 'sakura', 'soft-sakura', 'chroma', 'purple'
 ];
 
 export const COMMANDS = {
@@ -13,6 +13,7 @@ export const COMMANDS = {
   help      - Show this help message
   about     - Learn more about KTH-GPT
   contact   - Get contact information
+  copy      - Copy the last AI response to clipboard
   theme     - Change terminal theme (usage: theme <name>)
   clear     - Clear the terminal
   
@@ -103,6 +104,10 @@ drwxr-xr-x  user  staff   512 Dec 2 12:00 node_modules (black hole)`
     brainrot: {
         description: '???',
         execute: () => ({ type: 'brainrot' })
+    },
+    copy: {
+        description: 'Copy the last AI response to clipboard',
+        execute: () => ({ type: 'copy' })
     }
 };
 
