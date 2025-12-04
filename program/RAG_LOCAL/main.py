@@ -5,7 +5,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from vector import retriever
 
 model = OllamaLLM(model="llama3.2")
-
+# 2. Answer the user’s question using only the information in the relevant context.
 template = """
 You are a highly helpful, precise assistant. Use the following context and only this context to answer the user’s question:
 {reviews}
@@ -17,7 +17,7 @@ Instructions:
 4. Provide answers that are concise, complete, and well-structured in a free flowing text.
 5. Avoid adding any assumptions, opinions, or information not present in the context.
 6. Be polite, professional, and helpful.
-7. Provide a clear list of sources at the bottom of the answer.
+7. Do not cite sources.
 
 User’s question: {question}
 """
