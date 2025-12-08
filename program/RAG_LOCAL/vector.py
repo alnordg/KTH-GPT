@@ -8,17 +8,19 @@ import uuid
 
 embeddings = OllamaEmbeddings(model="mxbai-embed-large")
 
-# Path to FAISS index
-db_location = "faiss_index_pdf"
+# Path to FAISS index = faiss_index_pdf
+db_location = "test4"
 add_documents = not os.path.exists(db_location)
 
 def load_documents():
-    loader = PyPDFDirectoryLoader("data")
-    return loader.load()  # returns list[Document]
+    loader = PyPDFDirectoryLoader("data2")
+    docs =  loader.load()
+    print(docs)
+    return docs  # returns list[Document]
 
 def split_documents(documents: list[Document]):
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=400,
+        chunk_size=600,
         chunk_overlap=80,
         length_function=len,
         is_separator_regex=False,
@@ -75,4 +77,4 @@ else:
     print(f"Number of docs: {num_docs}")
 
 # **This must be at the bottom**
-retriever = vector_store.as_retriever(search_kwargs={"k": 20})
+retriever = vector_store.as_retriever(search_kwargs={"k": 15})

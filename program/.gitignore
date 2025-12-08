@@ -1,4 +1,5 @@
 venv/
 faiss_index*
 __pycache__/
-data
+data*
+test*
