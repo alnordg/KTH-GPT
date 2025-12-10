@@ -15,7 +15,7 @@ if add_documents:
     ids = []
 
     # Load PDF
-    pdf_path = "test.pdf"
+    pdf_path = "data/test.pdf"
     reader = PdfReader(pdf_path)
 
     for i, page in enumerate(reader.pages):

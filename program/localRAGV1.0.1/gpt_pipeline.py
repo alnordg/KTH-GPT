@@ -32,7 +32,7 @@ converter = DocumentConverter(
 )
 
 print("Converting document...")
-read = converter.convert("data/...")
+read = converter.convert("data/test.pdf")
 print("Document converted.")
 
 tokenizer = HuggingFaceTokenizer(

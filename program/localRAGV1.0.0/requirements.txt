@@ -3,5 +3,4 @@ langchain-community
 langchain-ollama
 faiss-cpu
 pandas
-
 PyPDF2
