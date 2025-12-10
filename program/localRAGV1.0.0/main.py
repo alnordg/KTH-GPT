@@ -13,11 +13,10 @@ You are a highly helpful, precise assistant. Use the following context and only 
 Instructions:
 1. First, identify the parts of the context that are most relevant to answering the question.
 2. Answer the user’s question using only the information in the relevant context.
-3. Always include clear source references. Use a consistent format, e.g., “Source 1: …”, “Source 2: …”.
-4. If the context does not contain the answer, respond: “I don’t know based on the provided context.”
-5. Provide answers that are concise, complete, and well-structured.
-6. Avoid adding any assumptions, opinions, or information not present in the context.
-7. Be polite, professional, and helpful.
+3. If the context does not contain the answer, respond: “I don’t know based on the provided context.”
+4. Provide answers that are concise, complete, and well-structured.
+5. Avoid adding any assumptions, opinions, or information not present in the context.
+6. Be polite, professional, and helpful.
 
 User’s question: {question}
 """
