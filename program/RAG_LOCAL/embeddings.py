@@ -13,8 +13,8 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-DOCUMENTS_FILEPATH = "data2/Max Test.pdf"
-FAISS_INDEX_DIR = "faiss_index"
+DOCUMENTS_FILEPATH = "data2/91pageLec.pdf"
+FAISS_INDEX_DIR = "faiss_index_2"
 
 embeddings = HuggingFaceEmbeddings(
     model_name=EMBEDDING_MODEL,
@@ -39,6 +39,7 @@ if not db_exists:
 
     # persist to disk
     vector_store.save_local(FAISS_INDEX_DIR)
+    print("Vector store made")
 
 # If local store is present load it
 else:
@@ -51,5 +52,5 @@ else:
 # export retriever interface to use in retrieval chain
 retriever = vector_store.as_retriever(
     search_type="similarity",
-    search_kwargs={"k": 3}
+    search_kwargs={"k": 20}
 )

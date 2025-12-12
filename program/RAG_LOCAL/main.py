@@ -1,12 +1,16 @@
 from langchain_ollama.llms import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
-from embeddings import retriever
+from utils import get_results_rerank
 
 model = OllamaLLM(model="llama3.2")
 # 2. Answer the user’s question using only the information in the relevant context.
 
 template = """
-You are a highly helpful, precise assistant. Use the following context and only this context to answer the user’s question:
+1. You are a highly helpful, precise assistant. Provide as much detail as you can in your answers.
+2. Answer the user's question using the ONLY the provided context. 
+3. If something is unclear you are allowed use the context as a guideline, explain all mentioned concepts in the context.
+
+context:
 {results}
 
 User’s question: {question}
@@ -21,7 +25,7 @@ while True:
     if question == "q":
         break
 
-    results = retriever.invoke(question)
+    results = get_results_rerank(question, 4)
     result = chain.invoke({"results": results, "question": question})
     print(result)
 
@@ -30,3 +34,5 @@ while True:
 # You are a helpful assistant. Use the following context in your response: {results}
 # Answer the user's question using ONLY the context above where relevant, show the sources also; if no answer is available, say you don't know."
 # Here is the question to answer: {question}
+
+#Answer the user's question using ONLY the context above, if you cannot answer based on the context, say you don't know."

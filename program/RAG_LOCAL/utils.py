@@ -1,19 +1,36 @@
-from langchain_core.documents import Document
-import uuid
+from sentence_transformers import CrossEncoder
+from embeddings import retriever
 
-def duckling_to_langchain(chunk):
-    page_content = getattr(chunk, "text", "empty chunk")
-    metadata = {
-        "filename": chunk.meta.origin.filename,
-        "page_number": chunk.meta.doc_items[0].prov[0].page_no,
-        "headings": chunk.meta.headings,
-        "page_length": len(page_content),
-    }
+reranker = None
 
-    # Create a new Document with a unique id to avoid collisions
-    doc = Document(
-        page_content=page_content,
-        metadata=metadata,
-        id=str(uuid.uuid4())
-    )
-    return doc
+# Init reranking model to only load model once
+def _initialize_reranker():
+    global reranker
+    if reranker is None:
+        reranker = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
+
+def get_results_rerank(question, num_returned_results):
+    _initialize_reranker()
+
+    results = retriever.invoke(question)
+
+    # Cross-encoder takes a list of query-context pairs and returns a list of scores, one entry for each pair (high score = better)
+    pairs = [[question, document.page_content] for document in results]
+    scores = reranker.predict(pairs)
+
+    # Combine results with scores -> tuples and sort based on score
+    reranked = sorted(
+        zip(results, scores),
+        key=lambda x: x[1],
+        reverse=True
+    )[:num_returned_results]
+
+    # Extract only documents
+    reranked_documents = [doc.page_content for doc, score in reranked]
+
+    #i = 1
+    #for doc in reranked_documents:
+    #    print(f"Context {i}: {doc}\n")
+    #    i += 1
+
+    return reranked_documents
