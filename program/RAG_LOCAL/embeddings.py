@@ -7,14 +7,15 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from docling_pipeline import docs_converter
 
 import logging
+from pathlib import Path
 logging.getLogger().setLevel(logging.WARNING)
 logging.getLogger("sentence_transformers").setLevel(logging.WARNING)
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-DOCUMENTS_FILEPATH = "data2/91pageLec.pdf"
-FAISS_INDEX_DIR = "faiss_index_2"
+DOCUMENTS_FILEPATH = "canvas_data"
+FAISS_INDEX_DIR = "faiss_index_final"
 
 embeddings = HuggingFaceEmbeddings(
     model_name=EMBEDDING_MODEL,
@@ -35,7 +36,7 @@ if not db_exists:
         index_to_docstore_id={},
     )
 
-    vector_store.add_documents(documents=docs_converter(DOCUMENTS_FILEPATH))
+    vector_store.add_documents(documents=docs_converter(Path(DOCUMENTS_FILEPATH).iterdir()))
 
     # persist to disk
     vector_store.save_local(FAISS_INDEX_DIR)
