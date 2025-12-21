@@ -191,16 +191,37 @@ function TerminalInterface() {
         setHistoryIndex(-1);
         setIsLoading(true);
 
-        // Mock AI response
-        setTimeout(() => {
+        // Call Local RAG API
+        try {
+            const response = await fetch('http://localhost:8000/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ question: trimmedInput }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch from AI');
+            }
+
+            const data = await response.json();
             setIsLoading(false);
             setIsTyping(true);
             const botResponse = {
                 type: 'response',
-                text: 'I am a helpful AI assistant. I can help you with coding, writing, and analysis.'
+                text: data.answer
             };
             setHistory(prev => [...prev, botResponse, { type: 'system', text: '' }]);
-        }, 1500);
+        } catch (error) {
+            console.error('Error calling RAG API:', error);
+            setIsLoading(false);
+            const errorResponse = {
+                type: 'system',
+                text: 'Error: Could not connect to the local RAG service. Please ensure it is running on port 8000.'
+            };
+            setHistory(prev => [...prev, errorResponse]);
+        }
     };
 
     const handleKeyDown = (e) => {
@@ -403,7 +424,7 @@ function TerminalInterface() {
                         <div className="terminal-line loading">
                             <span className="response-prefix">[AI]</span>
                             <span className="loading-text">
-                                <span className="cursor-blink">▊</span>
+                                <span className="thinking-dots"></span>
                             </span>
                         </div>
                     )}
