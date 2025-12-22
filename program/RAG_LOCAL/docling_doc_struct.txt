@@ -1,0 +1,38 @@
+# Docling document structure
+
+text="some text approx the length of MAX_TOKENS" 
+meta=DocMeta(
+    schema_name='docling_core.transforms.chunker.DocMeta', 
+    version='1.0.0', 
+    doc_items=[
+        DocItem(
+            self_ref='#/texts/0', 
+            parent=RefItem(cref='#/body'), 
+            children=[], 
+            content_layer=<ContentLayer.BODY: 'body'>, 
+            meta=None, 
+            label=<DocItemLabel.TEXT: 'text'>, 
+            prov=[
+                ProvenanceItem(
+                    page_no=1, 
+                    bbox=BoundingBox(
+                        l=72.0, 
+                        t=761.334, 
+                        r=509.596, 
+                        b=687.259, 
+                        coord_origin=<CoordOrigin.BOTTOMLEFT: 'BOTTOMLEFT'>
+                    ), 
+                    charspan=(0, 375)
+                )
+            ]
+        )
+    ], 
+    headings=None, 
+    captions=None, 
+    origin=DocumentOrigin(
+        mimetype='application/pdf', 
+        binary_hash=15723405278806470466, 
+        filename='Max Test.pdf', 
+        uri=None
+    )
+)
