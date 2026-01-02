@@ -22,13 +22,30 @@ MAX_TOKENS = 256
 
 # Reads document at location <filepath> and returns a list of ducling hybrid chunked langchain Documents 
 def docs_converter(filepath):
+    '''
+    If you are planning to process a large amout of PDF documents it is highly recommended to use gpu acceleration, 
+    however, if you do not have access to a NVIDIA GPU for CUDA gpu acceleration use the code below:
+
+        converter = DocumentConverter(
+            format_options={
+                InputFormat.PDF: PdfFormatOption(pipeline_options=PdfPipelineOptions(do_picture_description=False)),
+                InputFormat.DOCX: WordFormatOption(),
+                InputFormat.PPTX: PowerpointFormatOption(),
+                InputFormat.MD: MarkdownFormatOption(),
+            }
+        )
+    
+    and comment out lines 42 - 59. 
+
+    NOTE: The docling library currenty only supports GPU acceleration for PDF documents, however, MD and DOCX documents are processed very quickly even without it.
+    '''
     pipeline_options_gpu = ThreadedPdfPipelineOptions(
         accelerator_options=AcceleratorOptions(device=AcceleratorDevice.CUDA),  # *** ADDED ***
         layout_batch_size=32,   # ***TUNED***
         ocr_batch_size=4,       # ***TUNED***
         table_batch_size=3,     # ***TUNED***
     )
-    # Optionally disable OCR if not needed
+    # Optionally disable OCR if not needed, OCR is used for processing pictures within PDF files
     pipeline_options_gpu.do_ocr = False  
     pipeline_options_gpu.do_picture_description = False
 
@@ -40,7 +57,6 @@ def docs_converter(filepath):
             InputFormat.MD: MarkdownFormatOption(),
         }
     )
-    # converter.initialize_pipeline(InputFormat.PDF)
 
     tokenizer = HuggingFaceTokenizer(
         tokenizer=AutoTokenizer.from_pretrained(EMBEDDING_MODEL),
