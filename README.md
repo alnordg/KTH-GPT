@@ -26,7 +26,7 @@ KTH-GPT is a specialized AI assistant designed to help KTH students by providing
 -   **LangChain**: Orchestration framework for RAG.
 -   **FAISS**: Vector database for efficient similarity search.
 -   **Ollama**: Local LLM runner (using `llama3.2`).
--   **Sentence Transformers**: For embedding generation.
+-   **Hugging Face - Sentence Transformers**: For embedding generation.
 
 ## 🏗️ Architecture
 
