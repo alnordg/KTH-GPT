@@ -45,6 +45,21 @@ ollama pull llama3.2
 ### 2. Environment Setup
 -   **Python 3.9+**: Required for the backend.
 -   **Node.js & npm**: Required for the frontend.
+-   **Virtual Environment**: Highly recommended to isolate dependencies.
+
+**Create and Activate Virtual Environment:**
+```bash
+# macOS / Linux
+python3 -m venv venv
+source venv/bin/activate
+
+# Windows
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 3. CUDA Requirements
+If you do not have a CUDA-enabled GPU (common on macOS or non-NVIDIA systems), please refer to the instructions in `program/RAG_LOCAL/docling_pipeline.py` to configure the document converter appropriately.
 
 ## 🏃‍♂️ Usage
 
