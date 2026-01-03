@@ -23,8 +23,9 @@ MAX_TOKENS = 256
 # Reads document at location <filepath> and returns a list of ducling hybrid chunked langchain Documents 
 def docs_converter(filepath):
     '''
-    If you are planning to process a large amout of PDF documents it is highly recommended to use gpu acceleration, 
-    however, if you do not have access to a NVIDIA GPU for CUDA gpu acceleration use the code below:
+    If you are planning to process a large amout of PDF documents it is highly recommended to use gpu acceleration. 
+    The code will work out of the box even if you do not have CUDA, however, you might get some Warning meassages indicating that CUDA is not working and that it will default to CPU.
+    If you do not have access to a NVIDIA GPU for CUDA gpu acceleration and want to avoid Warning messages comment out lines 41 - 58 and use this code instead:
 
         converter = DocumentConverter(
             format_options={
@@ -34,8 +35,6 @@ def docs_converter(filepath):
                 InputFormat.MD: MarkdownFormatOption(),
             }
         )
-    
-    and comment out lines 42 - 59. 
 
     NOTE: The docling library currenty only supports GPU acceleration for PDF documents, however, MD and DOCX documents are processed very quickly even without it.
     '''
