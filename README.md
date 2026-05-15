@@ -1,8 +1,4 @@
-# KTH-GPT
-
-**By Students for Students**
-
-KTH-GPT is a specialized AI assistant designed to help KTH students by providing accurate answers based on course materials and university documents. It utilizes Retrieval-Augmented Generation (RAG) to ground its responses in specific source texts, ensuring relevance and reliability.
+# Simple-RAG
 
 ## 🚀 Features
 
